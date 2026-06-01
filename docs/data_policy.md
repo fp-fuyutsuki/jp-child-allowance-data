@@ -17,3 +17,7 @@
 ## 支給日について
 
 本リポジトリでは、支給月のみを提供します。具体的な支給日は自治体等により異なるため扱いません。
+
+## Source metadata review
+
+Source metadata is reviewed to keep dataset entries traceable and maintainable. Each source entry should include a clear title, publisher, URL, and access date where applicable.
