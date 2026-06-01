@@ -101,4 +101,10 @@ pytest
 
 ## License
 
+## English Summary
+
+jp-child-allowance-data provides machine-readable CSV/JSON data and a lightweight Python API for Japan's child allowance system.
+
+The project focuses on public policy data that can be referenced, validated, and maintained over time. It includes allowance rules, payment schedules, reform history, and source metadata.
+
 Apache License 2.0
