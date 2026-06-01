@@ -18,6 +18,6 @@
 
 本リポジトリでは、支給月のみを提供します。具体的な支給日は自治体等により異なるため扱いません。
 
-## Source metadata review
+## 出典メタデータの確認
 
-Source metadata is reviewed to keep dataset entries traceable and maintainable. Each source entry should include a clear title, publisher, URL, and access date where applicable.
+出典メタデータは、データの追跡可能性と保守性を保つために確認します。各出典には、可能な範囲で明確なタイトル、発行主体、URL、参照日を記載します。
