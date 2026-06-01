@@ -1,0 +1,74 @@
+[
+  {
+    "effective_from": "2012-04-01",
+    "effective_to": "2024-09-30",
+    "payment_month": "6",
+    "covered_months": "2;3;4;5",
+    "source_id": "cfa_overview_2025",
+    "notes": "拡充前は年3回支給。自治体により支給日は異なる。"
+  },
+  {
+    "effective_from": "2012-04-01",
+    "effective_to": "2024-09-30",
+    "payment_month": "10",
+    "covered_months": "6;7;8;9",
+    "source_id": "cfa_overview_2025",
+    "notes": "拡充前は年3回支給。自治体により支給日は異なる。"
+  },
+  {
+    "effective_from": "2012-04-01",
+    "effective_to": "2024-09-30",
+    "payment_month": "2",
+    "covered_months": "10;11;12;1",
+    "source_id": "cfa_overview_2025",
+    "notes": "拡充前は年3回支給。自治体により支給日は異なる。"
+  },
+  {
+    "effective_from": "2024-10-01",
+    "effective_to": "",
+    "payment_month": "2",
+    "covered_months": "12;1",
+    "source_id": "cfa_mottoouen_2026",
+    "notes": "拡充後は偶数月に前月分までの2か月分を支給。自治体により支給日は異なる。"
+  },
+  {
+    "effective_from": "2024-10-01",
+    "effective_to": "",
+    "payment_month": "4",
+    "covered_months": "2;3",
+    "source_id": "cfa_mottoouen_2026",
+    "notes": "拡充後は偶数月に前月分までの2か月分を支給。自治体により支給日は異なる。"
+  },
+  {
+    "effective_from": "2024-10-01",
+    "effective_to": "",
+    "payment_month": "6",
+    "covered_months": "4;5",
+    "source_id": "cfa_mottoouen_2026",
+    "notes": "拡充後は偶数月に前月分までの2か月分を支給。自治体により支給日は異なる。"
+  },
+  {
+    "effective_from": "2024-10-01",
+    "effective_to": "",
+    "payment_month": "8",
+    "covered_months": "6;7",
+    "source_id": "cfa_mottoouen_2026",
+    "notes": "拡充後は偶数月に前月分までの2か月分を支給。自治体により支給日は異なる。"
+  },
+  {
+    "effective_from": "2024-10-01",
+    "effective_to": "",
+    "payment_month": "10",
+    "covered_months": "8;9",
+    "source_id": "cfa_mottoouen_2026",
+    "notes": "拡充後は偶数月に前月分までの2か月分を支給。自治体により支給日は異なる。"
+  },
+  {
+    "effective_from": "2024-10-01",
+    "effective_to": "",
+    "payment_month": "12",
+    "covered_months": "10;11",
+    "source_id": "cfa_mottoouen_2026",
+    "notes": "拡充後は偶数月に前月分までの2か月分を支給。自治体により支給日は異なる。"
+  }
+]

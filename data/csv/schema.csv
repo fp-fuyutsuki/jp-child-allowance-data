@@ -1,0 +1,13 @@
+file,column,type,required,description
+allowance_rules.csv,effective_from,date,true,制度適用開始日
+allowance_rules.csv,effective_to,date,false,制度適用終了日。空欄は現行制度
+allowance_rules.csv,age_min,integer,true,対象年齢の下限
+allowance_rules.csv,age_max,integer,true,対象年齢の上限。年度末扱いはnotesに明記
+allowance_rules.csv,child_order_min,integer,true,第何子以降かの下限
+allowance_rules.csv,child_order_max,integer,false,第何子までかの上限。空欄は上限なし
+allowance_rules.csv,monthly_amount_yen,integer,true,月額支給額
+allowance_rules.csv,income_status,string,true,所得区分
+allowance_rules.csv,income_limit_applicable,boolean,true,所得制限の有無
+allowance_rules.csv,source_id,string,true,出典ID
+payment_schedule.csv,payment_month,integer,true,支給月
+payment_schedule.csv,covered_months,string,true,支給対象月をセミコロン区切りで表現

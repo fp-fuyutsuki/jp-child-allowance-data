@@ -1,0 +1,11 @@
+effective_from,effective_to,age_min,age_max,age_label,child_order_min,child_order_max,monthly_amount_yen,income_status,income_limit_applicable,source_id,notes
+2012-04-01,2024-09-30,0,2,3歳未満,1,,15000,below_limit,true,mhlw_budget_2024,令和6年9月分までの標準的な児童手当。所得制限以上の場合は別行の特例給付を参照。
+2012-04-01,2024-09-30,3,12,3歳以上小学校修了前 第1子・第2子,1,2,10000,below_limit,true,mhlw_budget_2024,令和6年9月分まで。
+2012-04-01,2024-09-30,3,12,3歳以上小学校修了前 第3子以降,3,,15000,below_limit,true,mhlw_budget_2024,令和6年9月分まで。
+2012-04-01,2024-09-30,13,15,中学生,1,,10000,below_limit,true,mhlw_budget_2024,令和6年9月分まで。便宜上15歳到達後最初の年度末までをage_max=15で表現。
+2012-04-01,2024-09-30,0,15,特例給付,1,,5000,above_limit_below_cap,true,cfa_overview_2025,所得制限以上かつ所得上限未満の場合の特例給付。
+2012-04-01,2024-09-30,0,15,所得上限以上,1,,0,above_cap,true,cfa_overview_2025,所得上限以上の場合は支給対象外。
+2024-10-01,,0,2,3歳未満 第1子・第2子,1,2,15000,no_income_limit,false,cfa_mottoouen_2026,令和6年10月分からの拡充後制度。
+2024-10-01,,0,2,3歳未満 第3子以降,3,,30000,no_income_limit,false,cfa_mottoouen_2026,令和6年10月分からの拡充後制度。
+2024-10-01,,3,18,3歳以上高校生年代まで 第1子・第2子,1,2,10000,no_income_limit,false,cfa_mottoouen_2026,令和6年10月分からの拡充後制度。便宜上18歳到達後最初の年度末までをage_max=18で表現。
+2024-10-01,,3,18,3歳以上高校生年代まで 第3子以降,3,,30000,no_income_limit,false,cfa_mottoouen_2026,令和6年10月分からの拡充後制度。便宜上18歳到達後最初の年度末までをage_max=18で表現。
