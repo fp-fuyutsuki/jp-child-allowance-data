@@ -1,3 +1,5 @@
+![Python tests](https://github.com/fp-fuyutsuki/jp-child-allowance-data/actions/workflows/test.yml/badge.svg)
+
 # jp-child-allowance-data
 
 日本の児童手当制度を、機械可読な CSV / JSON と軽量な Python API で提供する OSS です。
