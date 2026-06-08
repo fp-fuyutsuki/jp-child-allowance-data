@@ -73,6 +73,7 @@ data/csv/allowance_rules.csv
 data/csv/payment_schedule.csv
 data/csv/reform_history.csv
 data/csv/sources.csv
+data/csv/schema.csv
 
 data/json/allowance_rules.json
 data/json/payment_schedule.json
@@ -95,16 +96,26 @@ python scripts/build_json.py
 pytest
 ```
 
+## データ検証
+
+CSVデータは、付属の検証スクリプトで確認できます。
+
+```bash
+python scripts/validate_data.py
+```
+
+この検証では、必須カラム、基本的な数値・日付・真偽値形式、`sources.csv` に対する `source_id` の参照関係を確認します。
+
 ## スコープ
 
 この OSS のスコープは、児童手当制度の公開情報を再利用しやすい形式で整理し、データと軽量な参照 API として提供することです。
 
 ## License
 
+Apache License 2.0
+
 ## English Summary
 
 jp-child-allowance-data provides machine-readable CSV/JSON data and a lightweight Python API for Japan's child allowance system.
 
 The project focuses on public policy data that can be referenced, validated, and maintained over time. It includes allowance rules, payment schedules, reform history, and source metadata.
-
-Apache License 2.0
