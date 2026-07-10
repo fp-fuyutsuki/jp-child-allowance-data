@@ -58,3 +58,28 @@ data/csv/schema.csv
 ## 注意事項
 
 この検証は、CSVファイルの基本的な構造と形式を確認するためのものです。制度解釈や行政手続き上の正確性を保証するものではありません。制度内容の確認には、出典として記載している公式情報を参照してください。
+
+## English summary
+
+This page documents the **CSV validation workflow** for Japan child-allowance data.
+
+### How to run
+
+From the repository root:
+
+`ash
+pip install -e .
+python scripts/validate_data.py
+`
+
+### What validation checks
+
+- Required columns exist on each CSV
+- Basic value formats (dates as YYYY-MM-DD, integers, 	rue/alse booleans, months in 1–12)
+- source_id values reference rows in sources.csv
+- Obvious inversions in age bands / child-order bands
+
+### Scope note
+
+Validation is structural/format-level only. It does not certify legal interpretation of Japan’s child allowance rules; confirm policy details against the official sources listed in the dataset metadata.
+
