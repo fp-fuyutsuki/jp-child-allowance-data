@@ -58,3 +58,37 @@ data/csv/schema.csv
 ## 注意事項
 
 この検証は、CSVファイルの基本的な構造と形式を確認するためのものです。制度解釈や行政手続き上の正確性を保証するものではありません。制度内容の確認には、出典として記載している公式情報を参照してください。
+
+---
+
+## English
+
+### CSV Validation
+
+This section explains how to validate the CSV data included in `jp-child-allowance-data`.
+
+#### Running validation
+
+Run the following command from the repository root:
+
+```bash
+python scripts/validate_data.py
+```
+
+If the package is not installed in the development environment, run:
+
+```bash
+pip install -e .
+```
+
+#### Validation coverage
+
+The validation checks:
+
+- required columns for each CSV file
+- date, integer, and boolean value formats
+- valid payment-month ranges
+- `source_id` references against `sources.csv`
+- basic consistency of age and child-order ranges
+
+The validator checks structural and basic semantic consistency. It does not replace verification against the official policy sources.
