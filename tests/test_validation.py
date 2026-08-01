@@ -8,12 +8,12 @@ from jp_child_allowance_data.validation import validate_csv_dir
 
 
 ROOT = Path(__file__).resolve().parents[1]
+CSV_SOURCE_DIR = ROOT / "jp_child_allowance_data" / "data" / "csv"
 
 
 def _copy_csv_dir(tmp_path: Path) -> Path:
-    src = ROOT / "data" / "csv"
     dst = tmp_path / "csv"
-    shutil.copytree(src, dst)
+    shutil.copytree(CSV_SOURCE_DIR, dst)
     return dst
 
 
@@ -26,7 +26,7 @@ def _rewrite_csv(path: Path, *, fieldnames: list[str], rows: list[dict[str, str]
 
 
 def test_validate_csv_dir_passes_on_repo_data():
-    validate_csv_dir(ROOT / "data" / "csv")
+    validate_csv_dir(CSV_SOURCE_DIR)
 
 
 def test_validate_missing_required_column_fails(tmp_path: Path):

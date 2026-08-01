@@ -54,5 +54,7 @@ def test_payment_months_pre_reform():
 
 def test_metadata_loads():
     assert load_rules()
-    assert load_sources()
-    assert get_reform_history()
+    sources = load_sources()
+    history = get_reform_history()
+    assert any(row["source_id"] == "cfa_mottoouen_2026" for row in sources)
+    assert any(row["effective_date"] == "2024-10-01" for row in history)

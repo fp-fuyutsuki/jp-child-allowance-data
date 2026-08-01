@@ -25,10 +25,29 @@
 
 ## インストール
 
-開発中はリポジトリ直下で以下を実行してください。
+### Source checkoutからの利用
+
+リポジトリrootで、checkout上のpackageを直接参照できます。
 
 ```bash
-pip install -e .
+python -c "from jp_child_allowance_data import get_monthly_amount; print(get_monthly_amount(age=2, child_order=1, date='2026-06-01'))"
+```
+
+### 開発用editable install
+
+開発用依存関係を含める場合は、リポジトリrootで以下を実行してください。
+
+```bash
+python -m pip install -e ".[dev]"
+```
+
+### ローカルでビルドしたwheelからの利用
+
+PyPI公開前のため、配布物を試す場合はローカルでwheelを作成してからinstallします。
+
+```bash
+python -m build
+python -m pip install --no-deps dist/jp_child_allowance_data-0.3.0-py3-none-any.whl
 ```
 
 ## 使い方
@@ -75,16 +94,29 @@ get_monthly_amount(
 ## データファイル
 
 ```text
-data/csv/allowance_rules.csv
-data/csv/payment_schedule.csv
-data/csv/reform_history.csv
-data/csv/sources.csv
-data/csv/schema.csv
+jp_child_allowance_data/data/csv/allowance_rules.csv
+jp_child_allowance_data/data/csv/payment_schedule.csv
+jp_child_allowance_data/data/csv/reform_history.csv
+jp_child_allowance_data/data/csv/sources.csv
+jp_child_allowance_data/data/csv/schema.csv
 
-data/json/allowance_rules.json
-data/json/payment_schedule.json
-data/json/reform_history.json
-data/json/sources.json
+jp_child_allowance_data/data/json/allowance_rules.json
+jp_child_allowance_data/data/json/payment_schedule.json
+jp_child_allowance_data/data/json/reform_history.json
+jp_child_allowance_data/data/json/sources.json
+```
+
+CSVがauthoritative sourceで、JSONは `scripts/build_json.py` から生成する派生データです。package resourceへ直接アクセスする場合は、current working directoryに依存しない標準ライブラリAPIを使用します。
+
+```python
+from importlib.resources import files
+
+csv_resource = (
+    files("jp_child_allowance_data")
+    .joinpath("data")
+    .joinpath("csv")
+    .joinpath("sources.csv")
+)
 ```
 
 ## 注意事項
@@ -99,7 +131,8 @@ data/json/sources.json
 ```bash
 python scripts/validate_data.py
 python scripts/build_json.py
-pytest
+python scripts/validate_data.py
+python -m pytest
 ```
 
 ## データ検証

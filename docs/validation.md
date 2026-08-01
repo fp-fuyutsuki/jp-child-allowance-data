@@ -19,7 +19,27 @@ python scripts/validate_data.py
 開発環境でパッケージをインストールしていない場合は、先に以下を実行します。
 
 ```bash
-pip install -e .
+python -m pip install -e ".[dev]"
+```
+
+## 推奨する検証順序
+
+CSVがauthoritative sourceであり、JSONは `scripts/build_json.py` から生成する派生データです。JSONを直接編集せず、次の順序で検証してください。JSONはLF改行で決定的に生成されます。
+
+```bash
+python scripts/validate_data.py
+python scripts/build_json.py
+python scripts/validate_data.py
+python -m pytest
+```
+
+生成されたJSONの変更もPull Requestまたはcommitの対象に含めてください。
+
+生成されたJSONをstagingした後、またはcommit済みのcleanなworking treeで、次を実行して未反映の生成差分がないことを確認します。
+
+```bash
+python scripts/build_json.py
+git diff --exit-code -- jp_child_allowance_data/data/json
 ```
 
 ## 検証対象
@@ -27,11 +47,11 @@ pip install -e .
 検証スクリプトは、主に以下のCSVファイルを対象にします。
 
 ```text
-data/csv/allowance_rules.csv
-data/csv/payment_schedule.csv
-data/csv/reform_history.csv
-data/csv/sources.csv
-data/csv/schema.csv
+jp_child_allowance_data/data/csv/allowance_rules.csv
+jp_child_allowance_data/data/csv/payment_schedule.csv
+jp_child_allowance_data/data/csv/reform_history.csv
+jp_child_allowance_data/data/csv/sources.csv
+jp_child_allowance_data/data/csv/schema.csv
 ```
 
 ## 検証内容
@@ -78,7 +98,27 @@ python scripts/validate_data.py
 If the package is not installed in the development environment, run:
 
 ```bash
-pip install -e .
+python -m pip install -e ".[dev]"
+```
+
+#### Recommended validation sequence
+
+CSV is the authoritative source. Generate JSON with `scripts/build_json.py` rather than editing JSON directly. JSON generation is deterministic and uses LF line endings.
+
+```bash
+python scripts/validate_data.py
+python scripts/build_json.py
+python scripts/validate_data.py
+python -m pytest
+```
+
+Include the generated JSON changes in the pull request or commit.
+
+After staging the generated JSON, or from a clean working tree containing the committed JSON, run the following commands to confirm that no generated changes remain:
+
+```bash
+python scripts/build_json.py
+git diff --exit-code -- jp_child_allowance_data/data/json
 ```
 
 #### Validation coverage

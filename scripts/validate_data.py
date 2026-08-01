@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-CSV_DIR = ROOT / "data" / "csv"
+CSV_DIR = ROOT / "jp_child_allowance_data" / "data" / "csv"
 
 sys.path.insert(0, str(ROOT))
 

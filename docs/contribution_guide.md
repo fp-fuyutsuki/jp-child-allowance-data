@@ -17,14 +17,19 @@
 
 ## Pull Request の条件
 
-- 公式または信頼できる出典を `sources.csv` に追加すること
-- データ変更時はテストを追加または更新すること
+- 公式または信頼できる出典を `jp_child_allowance_data/data/csv/sources.csv` に追加すること
+- CSVを基準データ（authoritative source）とし、JSONを直接編集しないこと
+- CSV変更後に `python scripts/build_json.py` を実行すること
+- 生成されたJSONの変更もPull Requestまたはcommitの対象に含めること
+- 生成されたJSONをstagingした後、またはcommit済みのcleanなworking treeで、`python scripts/build_json.py` を再実行すること
+- `git diff --exit-code -- jp_child_allowance_data/data/json` を実行し、未反映の生成差分がないこと
 - `python scripts/validate_data.py` が通ること
-- `pytest` が通ること
+- `python -m pytest` が通ること
+- データ変更時はテストを追加または更新すること
 
 ## `reform_history.csv` のテスト用データを追加する方法
 
-`reform_history.csv` に関する検証テストは、`tests/test_validation.py` に追加します。
+`jp_child_allowance_data/data/csv/reform_history.csv` に関する検証テストは、`tests/test_validation.py` に追加します。
 
 テストでは、リポジトリ内の実データを直接変更せず、`_copy_csv_dir` を使って一時ディレクトリにCSVファイルをコピーしてください。
 
