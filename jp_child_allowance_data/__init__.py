@@ -8,6 +8,7 @@ from .allowance import (
     load_rules,
     load_sources,
 )
+from ._version import __version__
 
 __all__ = [
     "get_monthly_amount",
@@ -17,5 +18,3 @@ __all__ = [
     "load_rules",
     "load_sources",
 ]
-
-__version__ = "0.1.0"

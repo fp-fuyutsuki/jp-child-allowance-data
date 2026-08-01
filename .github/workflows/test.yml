@@ -1,4 +1,4 @@
-name: Python tests
+name: Python package checks
 
 on:
   push:
@@ -6,8 +6,43 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Validate and regenerate data
+        run: |
+          python scripts/validate_data.py
+          python scripts/build_json.py
+          python scripts/validate_data.py
+          git diff --exit-code -- jp_child_allowance_data/data/json
+
+      - name: Run tests
+        run: python -m pytest
+
+  package:
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
@@ -19,12 +54,98 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install package and test dependencies
+      - name: Install package and packaging dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .
-          pip install pytest
+          python -m pip install --upgrade "setuptools>=77.0.3" wheel
+          python -m pip install -e ".[dev]"
+
+      - name: Validate source data
+        run: |
+          python scripts/validate_data.py
+          python scripts/build_json.py
+          python scripts/validate_data.py
+          git diff --exit-code -- jp_child_allowance_data/data/json
 
       - name: Run tests
+        run: python -m pytest
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Validate distribution metadata
+        run: python -m twine check --strict dist/*
+
+      - name: Inspect distribution contents
+        run: python scripts/check_dist_contents.py dist
+
+      - name: Run clean wheel smoke test
+        shell: bash
         run: |
-          python -m pytest
+          set -euo pipefail
+          smoke_root="$(mktemp -d)"
+          mapfile -t wheels < <(find "$GITHUB_WORKSPACE/dist" -maxdepth 1 -type f -name '*.whl' -print)
+          if [[ "${#wheels[@]}" -ne 1 ]]; then
+            echo "expected exactly one wheel, found ${#wheels[@]}" >&2
+            exit 1
+          fi
+          wheel_path="${wheels[0]}"
+          if [[ -z "$wheel_path" ]]; then
+            echo "wheel path is empty" >&2
+            exit 1
+          fi
+          python -m venv "$smoke_root/.venv"
+          cp "$GITHUB_WORKSPACE/tests/smoke_test_installed.py" "$smoke_root/smoke_test_installed.py"
+          "$smoke_root/.venv/bin/python" -m pip install --no-index --no-deps "$wheel_path"
+          (
+            cd "$smoke_root"
+            "$smoke_root/.venv/bin/python" -I "$smoke_root/smoke_test_installed.py"
+          )
+
+      - name: Rebuild and smoke test a wheel from the source distribution
+        shell: bash
+        run: |
+          set -euo pipefail
+          rebuild_root="$RUNNER_TEMP/sdist-rebuild"
+          rm -rf "$rebuild_root"
+          mkdir -p "$rebuild_root/source" "$rebuild_root/wheel-dist" "$rebuild_root/smoke"
+          mapfile -t sdists < <(find "$GITHUB_WORKSPACE/dist" -maxdepth 1 -type f -name '*.tar.gz' -print)
+          if [[ "${#sdists[@]}" -ne 1 ]]; then
+            echo "expected exactly one sdist, found ${#sdists[@]}" >&2
+            exit 1
+          fi
+          tar -xzf "${sdists[0]}" -C "$rebuild_root/source"
+          source_root="$(find "$rebuild_root/source" -mindepth 1 -maxdepth 1 -type d -print -quit)"
+          if [[ -z "$source_root" ]]; then
+            echo "extracted sdist source directory is missing" >&2
+            exit 1
+          fi
+          python -m venv "$rebuild_root/build-venv"
+          "$rebuild_root/build-venv/bin/python" -m pip install --upgrade "setuptools>=77.0.3" wheel build
+          "$rebuild_root/build-venv/bin/python" -m build --no-isolation --wheel --outdir "$rebuild_root/wheel-dist" "$source_root"
+          mapfile -t rebuilt_wheels < <(find "$rebuild_root/wheel-dist" -maxdepth 1 -type f -name '*.whl' -print)
+          if [[ "${#rebuilt_wheels[@]}" -ne 1 ]]; then
+            echo "expected exactly one rebuilt wheel, found ${#rebuilt_wheels[@]}" >&2
+            exit 1
+          fi
+          rebuilt_wheel="${rebuilt_wheels[0]}"
+          if [[ -z "$rebuilt_wheel" ]]; then
+            echo "rebuilt wheel path is empty" >&2
+            exit 1
+          fi
+          python -m venv "$rebuild_root/smoke-venv"
+          "$rebuild_root/smoke-venv/bin/python" -m pip install --no-index --no-deps "$rebuilt_wheel"
+          cp "$GITHUB_WORKSPACE/tests/smoke_test_installed.py" "$rebuild_root/smoke/smoke_test_installed.py"
+          (
+            cd "$rebuild_root/smoke"
+            "$rebuild_root/smoke-venv/bin/python" -I "$rebuild_root/smoke/smoke_test_installed.py"
+          )
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-distributions
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+          if-no-files-found: error

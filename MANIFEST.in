@@ -1,0 +1,18 @@
+include README.md
+include CHANGELOG.md
+include LICENSE
+include pyproject.toml
+recursive-include jp_child_allowance_data/data/csv *.csv
+recursive-include jp_child_allowance_data/data/json *.json
+prune .github
+prune build
+prune data
+prune dist
+prune docs
+prune scripts
+prune tests
+prune .venv
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude .env
+global-exclude .env.*
